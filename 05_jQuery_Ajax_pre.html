@@ -6,7 +6,7 @@
     <title>jQuery Ajax pre (picSum)</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
-        #imageContainer {
+        #imageContainer, #catContainer {
             display : flex;
             flex-wrap : wrap;
             margin-top : 20px;
@@ -23,7 +23,48 @@
 </head>
 <body>
     <h1>AJAX로 이미지 가져오기</h1>
-    <button id="loadImages">이미지 가져오기</button>
+    <button id="loadImages">강아지 사진 가져오기</button>
     <div id="imageContainer"></div>
+
+    <script>
+        $('#loadImages').click(function() {
+            $.ajax({
+                // 무료 강아지 사진 이미지 제공
+                url: 'https://api.thedogapi.com/v1/images/search?limit=1',
+                method : 'GET',
+                success:
+                    function(data) {
+                    // 이미지를 덮어쓰기 하고 싶을 때
+                    // 1. .append() -> .html()
+                    // 2. .empty() 비우기를 사용한다.
+                        $('#imageContainer').empty(); // 이전 이미지 제거
+                    /*
+                        TheDogApi 는 한 번의 요청으로 여러 이미지를 가져올 수 있도록 설계
+                        기본적으로 배열을 반환하도록 설정
+                                                     index = 0번째
+                        이미지 한 장 : String arr1[] = [이미지주소];
+
+                        data[0].url;
+
+                    */
+                        $('#imageContainer').append('<img class="image-item" src=' + data[0].url + '>');
+                    },
+                error:
+                    function() {
+                        $('#imageContainer').html('<p>강아지 사진을 가져오는데 실패했습니다.</p>');
+                    }
+            })
+        })
+    </script>
+
+    <button id="loadCat">고양이 사진 가져오기</button>
+    <div id="catContainer"></div>
+
+    <script>
+        // https://api.thecatapi.com/v1/images/search?limit=1
+        $('#loadCat').click() {
+
+        }
+    </script>
 </body>
 </html>
