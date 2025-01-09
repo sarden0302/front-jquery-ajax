@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery - 기능 활용</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        #content {
+            margin-top : 20px;
+            padding: 10px;
+            border : 1px solid #ddd;
+            background-color: thistle;
+        }
+
+        .new-item{
+            color : green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>간단한 폼 처리</h1>
+    <form id="simpleForm">
+        <label for="username">이름</label>
+        <input type="text" id="username" name="username" placeholder="이름을 입력하세요.">
+        <button type="submit">제출</button>
+        <button type="button" id="resetForm">초기화</button>
+    </form>
+
+    <div id="content">제출 결과가 여기에 표시됩니다.</div>
+
+    <script>
+        // read : 읽음
+        $(document).ready(function() {
+            // form 제출할 때 사용하는 기능 .submit(function(event) {})
+            $('#simpleForm').submit(function(event) {
+                // 제출할 때 기본 제출 동작 방지!
+                event.preventDefault();
+
+                // input에 입력된 username 값을 가져오기  $('#아이디명칭').val(); val() : value() 줄임말
+
+                // 만약에 input에 값이 존재한다면 존재하는 값으로 글자를 변경
+
+                // input에 값이 존재하지 않고 빈 공간이라면 alert 이름을 입력해주세요 표기
+                const username = $('#username').val(); //
+                if(username) {
+                    //$('#content').text('안녕하세요. ' + username + ' 님!');
+                    $('#content').text(`안녕하세요. ${username} 님!`);
+                } else {
+                    alert('이름을 입력해주세요');
+                }
+
+                /*
+                    username 이라는 변수 이름에 $('#username').val() 갑을 넣어주지 않고 직접적으로
+                    $('#username').val() 로 사용한 경우
+
+                    const username = $('#username').val();
+                    if($('#username').val()) {
+                        $('#content').text('안녕하세요. ' + username + ' 님!');
+                        $('#content').text(`안녕하세요. ${username} 님!`);
+                    }
+                    와 같이 사용할 수 있다
+                    하지만 const username = $('#username').val(); 로 작성해 username을 사용하는 것이 안전
+                */
+            });
+
+            $('#resetForm').click(function() {
+               // 입력창 초기화 username .val()
+                $('#username').val('');
+
+               // 결과 초기화  content .text()
+                $('#content').text('제출결과가 여기에 표기됩니다.');
+            });
+        })
+    </script>
+</body>
+</html>

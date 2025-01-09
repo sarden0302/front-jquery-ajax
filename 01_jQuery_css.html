@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <title>jQuery 응용 - CSS 편</title>
+  <style>
+    #content {
+      margin-top : 20px;
+      padding : 10px;
+      border : 1px solid #ddd;
+      background-color: lightblue;
+    }
+
+    .new-text {
+      color : green;
+      font-weight : bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>jQuery 이용해서 css 설정 및 기능 응용</h1>
+  <button id="changeText">텍스트 변경</button>
+  <button id="toggleText">텍스트 보이기 숨기기</button>
+  <button id="addColorText">컬러텍스트 추가</button>
+  <button id="changeColorText">컬러텍스트 변경</button>
+  <div id="content">즐거운 jQuery !!!</div>
+  <script>
+    // 1.
+    $(document).ready(function() {
+    // 2,
+      $('#changeText').click(function() {
+        $('#content').text('Happy JQUERY');
+      });
+    // 3.
+      $('#toggleText').click(function() {
+        $('#content').toggle(500); // 초 단위를 넣어 부드럽게 숨기거나 보이게 설정
+      });
+    // 4.
+      $('#addColorText').click(function() {
+        $('#content').append('<p class="new-text">새롭게 추가된 컬러 텍스트 입니다. </p>');
+      });
+    // 5. .css() 로 제 2순위 스타일 설정
+      $('#changeColorText').click(function() {
+        // <style> 태그 안에 작성한 순위보다 .css() 작성한 순위가 더 높기 때문에
+        // 인라인 스타일 css 적용 -> <div id="content" style="color:red;">... 로 설정
+        $('#content').css('color', 'red');
+      });
+    });
+  </script>
+</body>
+</html>
