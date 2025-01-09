@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery 기능 이벤트 처리</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        #hoverBox {
+            width: 100px;
+            height: 100px;
+            background-color: lemonchiffon;
+        }
+
+        #divBox {
+            width: 200px;
+            height: 200px;
+        }
+
+        .plusCss {
+            background-color: orange;
+        }
+
+        .defaultCss {
+            background-color: aliceblue;
+        }
+    </style>
+</head>
+<body>
+<h1>이벤트 처리</h1>
+<button id="clickMe">클릭 이벤트</button>
+<div id="hoverBox">마우스 오버</div>
+<div id="clickCheck"></div>
+<script>
+    //$(document).ready(function() {})
+    $('#clickMe').click(function () {
+        $('#clickCheck').append('<p>버튼이 클릭되었습니다.</p>');
+    });
+
+    // 마우스 호버 이벤트
+    // $().hover(function(){},       function() {})
+    //           마우스가 태그로 접근시  마우스가 태그로 부터 멀어질시
+    $('#hoverBox').hover(
+        function () {
+            // 1. 마우스가 태그 위일 떄
+            $('#hoverBox').css('background', 'yellow');
+        },
+        // 2. 마우스가 태그 위가 아닐 시
+        function () {
+            $('#hoverBox').css('background', 'lemonchiffon');
+        }
+    );
+
+    $('#hoverBox').hover(
+        function () {
+            // 1. 마우스가 태그 위일 떄
+            $(this).css('background', 'yellow');
+        },
+        // 2. 마우스가 태그 위가 아닐 시
+        function () {
+            $(this).css('background', 'lemonchiffon');
+        }
+    );
+</script>
+
+<button id="clickHere">클릭 이벤트</button>
+<div id="divBox"></div>
+
+<script>
+    /*
+    jQuery          vanilla JavaScript
+    mouseleave      mouseover
+    mouseenter      mouseout
+
+    hover(function(){}, function() {}) 로 간단히 표기 가능
+     */
+
+    $(document).ready(function () {
+        $('#divBox').hover(
+            function () {
+                $(this).addClass('hovering');
+                $(this).removeClass('nonhovering');
+            },
+            function () {
+                $(this).addClass('nonhovering');
+                $(this).removeClass('hovering');
+            }
+        );
+    })
+
+    $(document).ready(function () {
+        $('#divBox').hover(
+            function () {
+                $(this).addClass('plusCss');
+                $(this).removeClass('defaultCss');
+            },
+            function () {
+                $(this).addClass('defaultCss');
+                $(this).removeClass('plusCss');
+            }
+        );
+    })
+
+</script>
+
+
+</body>
+</html>

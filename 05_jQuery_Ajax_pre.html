@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Ajax pre (picSum)</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        #imageContainer {
+            display : flex;
+            flex-wrap : wrap;
+            margin-top : 20px;
+            gap : 10px
+        }
+
+        .image-item {
+            width : 150px;
+            height : 150px;
+            object-fit : cover;
+            border : 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>AJAX로 이미지 가져오기</h1>
+    <button id="loadImages">이미지 가져오기</button>
+    <div id="imageContainer"></div>
+</body>
+</html>

@@ -49,9 +49,16 @@
                 const username = $('#username').val(); //
                 if(username) {
                     //$('#content').text('안녕하세요. ' + username + ' 님!');
-                    $('#content').text(`안녕하세요. ${username} 님!`);
+                    //$('#content').text(`안녕하세요. ${username} 님!`).css('color', 'green');
+                    // └────── <div id="content" style="color:green;">안녕하세요. ${username} 님!</div>
+                    $('#content').text(`안녕하세요. ${username} 님!`).addClass('new-item');
+                    // └────── <div id="content" class="error">안녕하세요. ${username} 님!</div>
+                    $('#content').removeClass('error');
                 } else {
-                    alert('이름을 입력해주세요');
+                    //$('#content').text('이름을 입력해주세요').css('color', 'red');
+                    // └────── <div id="content" style="color:red;">이름을 입력해주세요</div>
+                    $('#content').text('이름을 입력해주세요').addClass('error').removeClass('new-item');
+                    // └────── <div id="content" class="error">이름을 입력해주세요</div>
                 }
 
                 /*

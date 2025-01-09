@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>jQuery_Animation</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+<h1>서서히 보이고 숨기기</h1>
+<div id="box"></div>
+<button id="fadeIn">서서히 나타나기</button>
+<button id="fadeOut">서서히 사라지기</button>
+
+<script>
+    /*
+    시간 설정 기본  = 400ms
+    fadeIn(시간설정, 애니메이션이 완료된 후 실행할 함수 설정);
+    fadeOut(시간 설정, 애니메이션이 완료된 후 실행할 함수 설정)
+
+    fadeIn(duration, callback);
+    fadeOut(duration, callback);
+    - duration, callback 선택사항
+
+    시간만 설정하고 싶을 때
+    fadeIn(duration);
+    fadeOut(duration);
+
+    실행할 함수 구현하고 싶을 때
+    fadeIn(callback);
+    fadeOut(callback);
+
+    fadeIn(function() {기능작성});
+    fadeOut(function() {기능작성});
+     */
+    $('#fadeIn').click(function () {
+        $('#box').fadeIn(
+            1000,
+            function () {
+                $('#box').text("글자가 보입니다.");
+            }
+        );
+    });
+
+    // 시간 설정 없이 기능만 추가
+    $('#fadeOut').click(function () {
+        $('#box').fadeOut(
+            1000,
+            function() {
+                console.log('글자가 사라졌습니다.');
+            }
+        );
+    });
+</script>
+</body>
+</html>
