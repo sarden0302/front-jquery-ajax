@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>jQuery_Ajax_each_pre</title>
+    <style>
+        #catContainer,
+        #dogContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .image-item {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>강아지사진 5장씩 가져오기</h1>
+    <button id="loadDog">강아지 사진 가져오기</button>
+    <div id="dogContainer"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#loadDog').click(function() {
+               $.ajax( {
+                   // data 가져올 때 항상 확인 할 것!
+                   url : 'https://api.thedogapi.com/v1/images/search?limit=5', // 기본적으로 10장 가져온다고 작성. limit 보장 없음
+                   method : 'GET',
+                   success : function(data) {
+                       console.log('data : ' + data);
+                       if (data.length === 0) {
+                           $('#dogContainer').html('<p>추가할 강아지 사진이 없습니다.</p>');
+                       } else {
+                           // data 는 thedogapi 사이트에서 1장 이외 나머지 수는 거의 10장씩 전달
+                           // 우리가 원하는 수만큼 데이터를 나눠서 가져와야한다.
+                           // slice(0, 5) = index 0번부터 4번까지 가져오기
+                           // slice(1, 6) = index 1번부터 5번까지 가져오기
+                           // slice(5) = index 4번부터 끝까지 가져오기
+                           // slice(startIndex, endIndex) = 시작위치는 필수, 끝나는 위치는 생략 가능
+                           $.each(data.slice(0, 5), function(index, value) {
+                               $('#dogContainer').append(
+                                   `<img src="${value.url}" class="image-item">`
+                               );
+                           });
+                       }
+                   },
+                   error : function(error) {
+                       $('#dogContainer').html('<p>강아지 이미지를 서버에서 가져오는데 문제가 발생했습니다.</p>');
+                       alert('강아지 이미지를 서버에서 가져오는데 문제가 발생했습니다.');
+                   }
+               });
+            })
+
+        })
+
+    </script>
+
+    <h1>고양이 사진 3장씩 가져오기</h1>
+    <button id="loadCat">고양이 사진 가져오기</button>
+    <div id="catContainer"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#loadCat').click(function() {
+                $.ajax({
+                    url : 'https://api.thecatapi.com/v1/images/search?limit=5',
+                    method : 'GET',
+                    success : function(data) {
+                        if (!data.empty()) {
+                            $.each(data.slice(0, 3), function(index, value) {
+                                $('#catContainer').append(
+                                    `<img class="image-item" src="${value.url}">`
+                                );
+                            });
+                        } else {
+                            $('#catContainer').html(
+                                '<p>현재 존재하는 고양이 사진이 없습니다.</p>'
+                            );
+                        }
+                    },
+                    error : function(error) {
+                        $('#catContatiner').html(
+                            '<p>예기치 못한 에러 발생.</p>'
+                        );
+                    }
+                });
+            });
+        })
+    </script>
+</body>
+</html>

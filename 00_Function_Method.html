@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>Function Method</title>
+</head>
+<body>
+<h1>함수와 메서드</h1>
+<h3>함수(Function)</h3>
+<script>
+    // 함수 정의
+    function 더하기(a, b) {
+        return a + b;
+    }
+    // 함수 호출
+    console.log(더하기(2, 3));
+
+
+</script>
+<h3>메서드(Method)</h3>
+<script>
+    // 객체 정의
+    const 계산기 = {
+    // 메서드명 : function(매게변수1, 2...) { 동작할 기능 }
+    // 메서드명 : function(             ) { 동작할 기능 }
+        add : function(a, b) {
+            return a + b;
+        },
+        add : function() {
+            return 19;
+        },
+        subtract : function(a, b) {
+            return a - b;
+        }
+    };
+
+    // 계산기 내부에 존재하는 메서드 호출
+    console.log(계산기.add(5,3));
+    console.log(계산기.subtract(5,3));
+
+
+
+</script>
+
+<h3>함수와 메서드 종합 활용하기</h3>
+<script>
+    // 함수
+    function 인사하기(name) {
+        return 'hello ' + name + '!';
+    }
+
+    // Method
+    const user = {
+        name: "hong",
+        age: 20,
+        greeting : function() {
+            return 'hello ' + this.name + ' user';
+        },
+        speaking : function() {
+            return '대한민국 만세!';
+        }
+    }
+
+    alert(인사하기('강길자'));
+    // 메서드 호출
+    alert(user.greeting() + ' ' + user.speaking());
+</script>
+
+<script>
+    /******************************************************************************
+     ***************************** 함수와 메서드의 차이 ******************************
+     ****************************************************************************
+     * 함수 = function 함수이름() {} && 익명함수 function() {}
+     *          특정 작업을 수행하기 위해 독립적으로 정의된 코드 블럭
+     *          객체에 소속되지 않고 독립적으로 존재
+     *         함수이름이나 익명함수로 작성해서 직접 호출
+     *
+     *         객체의 소속이 아님
+     *         독립적으로 선언되어 어디서든 호출 가능
+     *         작업에 대한 결과를 반환할 수 있음
+     *
+     * 메서드 Method
+     *         특정 객체에 소속된 함수
+     *         특정 객체에 속한 함수로, 객체의 상태나 동작을 정의
+     *         호출방법 : 객체를 통해 호출 (객체명.메서드명)
+     *         객체의 상태를 조작하거나 동작을 수행할 때 사용
+     *         객체 = 주로 html에 작성한 요소
+     *         객체 내부에서 this 키워드를 사용해 해당 객체를 참조 가능
+     * */
+</script>
+</body>
+</html>
