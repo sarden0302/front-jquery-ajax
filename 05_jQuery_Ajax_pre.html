@@ -47,7 +47,8 @@
                         data[0].url;
 
                     */
-                        $('#imageContainer').append('<img class="image-item" src=' + data[0].url + '>');
+                        // limit=1 으로 가져올 경우 배열로 들어오기 때문에 data[0] 로 설정해줘야한다.
+                        $('#imageContainer').append('<img class="image-item" src="' + data[0].url + '">');
                     },
                 error:
                     function() {
@@ -66,11 +67,45 @@
             $.ajax({
                 url : 'https://api.thecatapi.com/v1/images/search?limit=1',
                 method : 'GET',
-                success :
+                success : // back-end나 api에서 데이터를 성공적으로 가져온 경우
                     function(data) {
-                        $('#catContainer').append('<img class="image-item" src=' + data[0].url + '>');
+                        // 이미지를 덮어쓰기 하고 싶을 때
+                        // 1. .append() -> .html()
+                        // 2. .empty() 비우기를 사용한다.
+                        $('#catContainer').empty();
+
+                        if (data.length > 0) { // 가져온 데이터 0개 이상
+                            /*
+                                TheDogApi 는 한 번의 요청으로 여러 이미지를 가져올 수 있도록 설계
+                                기본적으로 배열을 반환하도록 설정
+                                                             index = 0번째
+                                이미지 한 장 : String arr1[] = [이미지주소];
+
+                                data[0].url;
+
+                            */
+                            // limit=1 으로 가져올 경우 배열로 들어오기 때문에 data[0] 로 설정해줘야한다.
+                            const catUrl = data[0].url;
+                            $('#catContainer').append(
+                                '<img class="image-item" src="' + catUrl + '" alt="고양이 이미지">'
+                            );
+                        } else { // 존재하는 데이터가 0개인 경우, 일치하는 경우 없을 때
+                            /*$('catContainer').html(
+                                '<p>조회된 고양이 사진이 0 장 입니다.</p>'
+                            );*/
+                            /*$('catContainer').html(
+                                '<p>조회된 고양이 사진이 ' + data.length + ' 장 입니다.</p>'
+                            );*/
+                            $('catContainer').html(
+                                `<p>조회된 고양이 사진이 ${data.length}장 입니다.</p>`
+                            );
+                        }
+                    },
+                error : // back-end에서 데이터를 가져오지 못한 경우
+                    function(error) {
+                        $('#catContainer').html('<p>고양이 이미지를 가져오는데 실패했습니다.</p>');
                     }
-            })
+            });
         })
     </script>
 </body>
