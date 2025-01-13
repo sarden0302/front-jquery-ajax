@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Ajax API Auth Loading</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<header>영화 평점 조회하기</header>
+<div class="main-container">
+    <div class="section" id="topMovies">
+        <h3>평점 높은 영화</h3>
+        <div class="movie-list" id="topRatedMovies">
+
+        </div>
+    </div>
+</div>
+<script>
+    // omdapi 사이트를 이용해서 평점 높은 순으로 정렬
+    // Inception 을 그대로 s= 넣고 본인이 발급 받은 api 키 입력
+    // 검색 x
+    const apiURL = 'http://www.omdbapi.com/?s=Inception&apikey=본인키';
+
+    $(document).ready(function() {
+        $.ajax({
+            url: apiURL,
+            method: "GET",
+            success: function(data) {
+                const search = data.Search.sort(function(a, b) {
+                    return b.Year - a.Year;
+                });
+                $.each(search, function(index, movie) {
+                    $("#topRatedMovies").append(`
+                        <div class="movie-item">
+                            <img src="${movie.Poster}">
+                            <h3>${movie.Title}</h3>
+                            <p>YEAR : ${movie.Year}</p>
+                        </div>
+                    `);
+                });
+            },
+            error: function() {
+                alert("서버에 문제가 생겼습니다. 다시 시도해주세요.");
+            }
+        })
+    })
+</script>
+</body>
+</html>

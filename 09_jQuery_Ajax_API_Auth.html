@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Ajax API Auth - Search</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #2c3e50, #bdc3c7);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        header {
+            background-color: #34495e;
+            padding: 20px;
+            border-radius: 10px;
+            color: #ecf0f1;
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            overflow-y: auto;
+
+        }
+
+        .container h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #ecf0f1;
+        }
+
+        .container .movie-list {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            max-height : 400px;
+            overflow-y: auto;
+        }
+
+        .container .movie-item {
+            background: #34495e;
+            border-radius: 10px;
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container .movie-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        .container .movie-item img {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .container .movie-item h3 {
+            font-size: 1.2em;
+            color: #ecf0f1;
+            margin-bottom: 5px;
+        }
+
+        .container .movie-item p {
+            font-size: 0.9em;
+            color: #bdc3c7;
+        }
+
+        .container button {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .container button:hover {
+            background: linear-gradient(135deg, #16a085, #1abc9c);
+            transform: translateY(-3px);
+        }
+
+        .container input {
+            padding: 12px;
+            border-radius: 20px;
+            border: 1px solid #34495e;
+            font-size: 1em;
+            width: 80%;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #34495e;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .container input:focus {
+            box-shadow: 0 0 10px #1abc9c;
+        }
+
+        .container input::placeholder {
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+<h1>API 개인 키를 발급받아 영화검색 확인 사이트</h1>
+<!--
+    Authentication = 인증, 검증
+    공공기관 API or 특정 사이트 API 를 사용하기 위해
+    개인마다 비공개 인증 키(본인확인) 키를 받고, 사용
+-->
+<header>영화평점 조회</header>
+<div class="container">
+    <h2>영화 제목을 입력하세요.</h2>
+    <input type="text" id="movieInput" placeholder="영어만 가능 : Inception">
+    <button id="searchMovie">검색하기</button>
+    <div class="movie-ist" id="movieList"></div>
+</div>
+<script>
+    $('#searchMovie').click(function() {
+        const movieName = $("#movieInput").val().trim(); // trim()을 이용해서 양쪽 제거
+        // if movieName === null
+        if (movieName === "") {
+            alert("영화 제목을 입력해주세요!");
+            return;
+        }
+
+
+        $.ajax({
+            url: `http://www.omdbapi.com/?s=${movieName}&apikey=본인키`,
+            method: 'GET',
+            success: function(data) {
+                $.each(data.Search, function(index, movie) {
+                    $("#movieList").append(`
+                        <div class="movie-item">
+                            <img src="${movie.Poster}">
+                            <h3>${movie.Title}</h3>
+                            <p>YEAR : ${movie.Year}</p>
+                        </div>
+                    `)
+                })
+            },
+            error : function(error) {
+                alert("서버에 문제가 발생해서 영화 데이터를 가지고 올 수 없습니다.");
+            }
+        })
+    })
+</script>
+</body>
+</html>
