@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>00_attribute</title>
+</head>
+<body>
+<h1>attribute / attr()</h1>
+<pre>
+attribute = 속성
+jquery attr()로 표현
+HTML 요소의 속성을 가져오거나 설정할 때 사용
+HTML 태그 src / alt / href / title 등의 속성을 동적으로 다룰 수 있음
+</pre>
+<img src="image.jpg" alt="img-description">
+<script>
+    // 1. vanilla javaScript = 기본 자바스크립트 버전
+    // 1-1. getAttribute 사용해서 이미지 속성(src) 값 가져오기
+    let element = document.querySelector("img"); // <img /> 태그 선택
+    let value = element.getAttribute("src");
+    // let value = document.querySelector("img").getAttribute("src");
+    console.log("img 태그의 값 : " + value)
+
+    // 1-2 setAttribute 사용해서 이미지 속성(src) 값 변경하기
+    element.setAttribute("src", "new-image.jpg"); // img 태그가 new-image.jpg 이미지 파일로 변경
+    element.setAttribute("alt", "새로운 이미지 사진");
+    console.log("변경된 img 속성 및 설명 값 : " + element.getAttribute("src"));
+    console.log("변경된 img 속성 및 설명 값 : " + element.getAttribute("alt"));
+
+    // 1-3 특정 설정 제거하기
+    element.removeAttribute("alt"); // alt 속성 제거
+
+    // 2. jQuery javaScript
+    // 2-1. getAttribute 사용해서 이미지 속성(src) 값 가져오기
+    let element = $("img");
+    let value = element.attr("src");
+    // let value = $("img").attr("src");
+    console.log("img 태그의 값 : " + value)
+
+    // 2-2 setAttribute 사용해서 이미지 속성(src) 값 변경하기
+    $("img").attr("src", "new-image.jpg"); // img 태그가 new-image.jpg 이미지 파일로 변경
+    $("img").attr("alt", "새로운 이미지 사진");
+
+    // 한번에 여러 설정을 변경할 때 사용ㅏ=
+    $("img").attr({
+        "src" : "renew_image.png",
+        "alt" : "새롭게 단장한 이미지"
+    })
+    console.log("변경된 img 속성 및 설명 값 : " + $("img").attr("src"));
+    console.log("변경된 img 속성 및 설명 값 : " + $("img").attr("src"));
+
+    // 2-3 특정 설정 제거하기
+    $("img").removeAttr("alt");
+
+</script>
+</body>
+</html>
