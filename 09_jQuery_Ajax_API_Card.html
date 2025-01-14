@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Deck API</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            padding: 20px;
+        }
+
+        #cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .card {
+            width: 100px;
+            height: 140px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Card Deck API</h1>
+<button id="new-deck">새 덱 생성</button>
+<button id="draw-cards">카드 뽑기</button>
+<div id="cards"></div>
+<script>
+    let deckId = ""; // 카드번호가 랜덤으로 담긴 덱 아이디 빈공간 생성
+    $("#new-deck").click(function() {
+        $.ajax({
+            url: 'https://deckofcardsapi.com/api/deck/new/',
+            method: 'GET',
+            success: function(data) {
+                deckId = data.deck_id;
+                alert("새로운 카드가 담긴 덱이 생겼습니다!" + " Deck ID : " + deckId);
+
+            }
+        })
+    })
+    // 카드 뽑기
+    $("#draw-cards").click(function() {
+        $.ajax({
+            url: `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=5`,
+            method: 'GET',
+            success: function(data) {
+                if (data.success) {
+                    $.each(data.cards, function(index, card) {
+                        $("#cards").append(`
+                            <div class="card">
+                                <img src="${card.image}">
+                            </div>
+                        `)
+                    })
+                    return;
+                }
+                alert("카드를 뽑을 수 없습니다. 남은 카드 수를 확인하세요.");
+            },
+            error: function() {
+            }
+        })
+    })
+    /*
+    $("#draw-cards").click(function() {
+        $.get(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=5`, function (data) {
+            if(data.success) {
+                $.each(data.cards, function(index, card) {
+                    $("#cards").append(`
+                        <div class="card">
+                            <img src="${card.image}">
+                        </div>
+                    `);
+                });
+            } else {
+                alert("카드를 뽑을 수 없습니다. 남은 카드 수를 확인하세요.");
+            }
+        })
+    })*/
+</script>
+</body>
+</html>

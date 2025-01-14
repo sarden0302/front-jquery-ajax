@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Title</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<input type="text" id="userId" placeholder="아이디">
+<div id="idResult"></div>
+<button id="registerButton">등록</button>
+
+<script>
+  const expIdText = /^[A-Za-z가-힇0-9]{4,20}$/;
+  //const userId = document.getElementById("userId");
+  const userId = $('#userId');
+  //const idResult = document.getElementById("idResult");
+  const idResult = $('#idResult');
+  //const registerButton = document.getElementById("registerButton");
+  let registerButton = $('#registerButton');
+  registerButton.attr("disabled", true);
+  registerButton.hide();
+
+
+  $('#userId').keyup(function() {
+    if (!expIdText.test(userId.val())) {
+      idResult.show();
+      idResult.text("아이디는 4자~20자로 제한되어 있습니다.");
+      idResult.removeClass('enabled').addClass('unabled');
+      registerButton.attr("disabled", true);
+
+      registerButton.hide();
+      return;
+    }
+    console.log("true");
+    idResult.hide();
+    idResult.removeClass('unabled').addClass('enabled');
+    registerButton.show();
+    registerButton.attr("disabled", false)
+  })
+  /*
+  userId.addEventListener("input", function () {
+      if (!expIdText.test(userId.value)) {
+          idResult.style.display = 'block';
+          idResult.className = "unabled";
+          idResult.innerText = "아이디는 4자~20자로 제한되어 있습니다.";
+          registerButton.disabled = true;
+      } else {
+          idResult.style.display = 'none';
+          registerButton.disabled = false;
+      }
+  });*/
+</script>
+</body>
+</html>
