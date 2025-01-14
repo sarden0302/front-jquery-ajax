@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Joke</title>
+    <link rel="icon" href="icon.png" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #checkingBtn, #newProblem {
+            margin-top : 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #checkingBtn:hover, #newProblem:hover {
+            background-color: #0056b3;
+        }
+
+        #errorText {
+            color : red;
+        }
+
+        #question-container {
+            font-size : 20px;
+        }
+
+        #answer-container {
+            font-size : 24px;
+            color : red;
+            font-weight : bold;
+        }
+    </style>
+</head>
+<body>
+<h1>Funny Joke</h1>
+<div id="question-container"></div>
+<div id="answer-container"></div>
+<button id="checkingBtn">결과보기</button>
+<button id="newProblem">다음 질문</button>
+<div id="errorText"></div>
+<script>
+    // js 준비
+    $(document).ready(function () {
+        // api 주소 가져오기
+        const apiUrl = "https://official-joke-api.appspot.com/random_joke";
+        // question-container 에 넣을 문제
+        let question;
+        // answer-container 에 넣을 답안지
+        let answer;
+        // 새로운 문제를 URL에서 가져오는 함수
+        function getProblems() {
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                success: function(data) {
+                    console.log("setup : " + data.setup);
+                    console.log("punchline : " + data.punchline);
+                    question = data.setup;
+                    $('#question-container').text(question);
+                    answer = data.punchline;
+                },
+                error: function() {
+                    $('#errorText').html(`<p>새로운 문제 가져오는 중 문제 발생</p>`)
+                }
+            })
+        }
+
+        // 새로운 문제를 누를 시 실행 혹은 사이트 접속시 실행
+        function getNext() {
+            // 새로운 문제 URL에 담고
+            getProblems();
+            // 기존 답안지는 empty()
+            $('#answer-container').empty();
+            // 기존 에러 페이지는 empty()
+            $('#errorText').empty();
+        }
+
+        // 사이트 접속시 실행
+        getNext();
+
+        // 결과보기 클릭시 실행
+        $('#checkingBtn').click(function() {
+            $('#answer-container').text(answer);
+        })
+
+        // 다음 질문 클릭시 실행
+        $('#newProblem').click(function() {
+            getNext();
+        })
+
+    })
+</script>
+
+</body>
+</html>
