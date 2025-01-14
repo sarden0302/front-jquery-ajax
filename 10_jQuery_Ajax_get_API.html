@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>get 을 이용해서 강아지 사진 가져오기</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        #catContainer,
+        #dogContainer,
+        #img-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .image-item {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<h1>강아지 사진 가져오기</h1>
+<button id="btnImage">강아지 이미지 가져오기</button>
+<div id="img-container"></div>
+<script>
+    // 클릭했을 때 강아지 사진 10장 가져오기
+    $(document).ready(function() {
+        function getDogImages() {
+            $.ajax({
+                url: 'https://api.thedogapi.com/v1/images/search?limit=10',
+                method: 'GET',
+                success: function(data) {
+                    if (data.length !== 0) {
+                        $.each(data.slice(0, 10), function(index, value) {
+                            $('#img-container').append(
+                                `<img class="image-item" src="${value.url}">`
+                            )
+                        })
+
+                    }
+                },
+                error: function(error) {
+                    console.log("에러 발생 : " + error);
+                }
+            })
+        }
+
+        getDogImages();
+
+        $('#btnImage').click(function() {
+            $('#img-container').html('');
+            getDogImages();
+        })
+    })
+</script>
+</body>
+</html>

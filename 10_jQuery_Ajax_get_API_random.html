@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Ajax get API random</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h1>정보 가져오기</h1>
+<button id="loadPokemon">포켓몬 정보 가져오기</button>
+<div id="pokemonContainer"></div>
+<script>
+    $(document).ready(function () {
+        $('#loadPokemon').click(
+            function() {
+                const randomId = Math.floor(Math.random() * 10) + 1; // 포켓몬 아이디 1 ~ 5
+                $.ajax({
+                    url: `https://pokeapi.co/api/v2/pokemon/${randomId}`,
+                    method: 'GET',
+                    success: function(data) {
+                        $('#pokemonContainer').html(
+                            `<div class="pokemonInfo">
+                                <img src="${data.sprites.other.home.front_default}">
+                                <h2>${data.name}</h2>
+                            </div>`
+                        );
+                    },
+                    error: function(error) {
+                        $('#pokemonContainer').html("<p>데이터 불러오기 실패!</p>")
+                    }
+
+                })
+            }
+        )
+    })
+
+</script>
+</body>
+</html>
