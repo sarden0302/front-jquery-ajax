@@ -12,6 +12,10 @@ $(document).ready(function () {
                 password: password
             }),
             success: function(data) {
+                /*
+                if (data.token) {
+
+                }*/
                 alert("로그인 성공!");
                 console.log(data);
                 // 로그인 성공 시 hidden class 삭제
@@ -20,6 +24,7 @@ $(document).ready(function () {
                 $('#product-container').removeClass('hidden');
                 $('#login-form').removeClass('hidden').addClass('hidden');
 
+                loadProducts(); // 로그인 성공과 동시에 category = all 전체상품 보는 형태로 불러와짐.
                 // 로그인 성공할 경우 hidden class 추가
                 // login-form
             },
@@ -33,7 +38,7 @@ $(document).ready(function () {
     })
 
     // Load products by category
-    function loadProducts(category) {
+    function loadProducts(category = "all") {
         console.log("loadProducts category : " + category);
         API_URL = ``;
         if (category === 'all') {
@@ -49,6 +54,10 @@ $(document).ready(function () {
                 if (data) {
                     let productInfo = ``;
                     $.each(data, function(index, product) {
+                        // 필터링 조건 : all 이거나 카테고리가 일치하는 경우에만 보여주겠다.
+                        /*if (category === "all" || product.category === category) {
+
+                        }*/
                         productInfo += `
                                 <div class="card" id="product">
                                     <img src="${product.image}">
@@ -65,6 +74,11 @@ $(document).ready(function () {
                     alert('데이터가 비어있습니다.');
                     $('#product-container').html('');
                 }
+
+                // "all" 또는 특정 카테고리에 해당 데이터가 없을 시
+                if ($("#product-container").is(":empty")) {
+                    $('#product-container').html('<p>해당 카테고리에 상품이 없습니다.</p>');
+                }
             }, error : function() {
                 alert("상품을 불러오는데 실패했습니다.");
             }
@@ -73,8 +87,8 @@ $(document).ready(function () {
 
     $('#category-buttons button').click(function() {
         const ct = $(this).data("category");
-        loadProducts(ct);
         console.log("button click category : " + $(this).data('category'));
+        loadProducts(ct);
     })
 
 })
